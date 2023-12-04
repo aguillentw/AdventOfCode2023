@@ -1,6 +1,7 @@
 use std::fs;
 
 pub mod day01;
+pub mod day02;
 
 fn main() {
     println!("");
@@ -16,4 +17,17 @@ fn main() {
     let contents = fs::read_to_string(file_path)
         .expect("Path not readable");
     println!("Ex.2 - The sum of all calibration values is {}", day01::exercice2(contents));
+    println!("");
+
+
+    println!("========= Day 02 =========");
+    let file_path = "inputs/day02_1.txt";
+    let contents = fs::read_to_string(file_path)
+        .expect("Path not readable");
+    println!("Ex.1 - ???? {}", day02::exercice1(contents));
+    // let file_path = "inputs/day02_2.txt";
+    // let contents = fs::read_to_string(file_path)
+    //     .expect("Path not readable");
+    // println!("Ex.2 - ???? {}", day02::exercice2(contents));
+    println!("");
 }
