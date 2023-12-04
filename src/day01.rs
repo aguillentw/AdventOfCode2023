@@ -48,18 +48,24 @@ fn find_calibrated_value(content: String) -> u32 {
 }
 
 fn replace_digit_words_by_their_value(content: String) -> String {
-    // replace digit words by their value for mixed words
-    // e.g. eightwothree to e8t2ot3e
-    let mut content = content.replace("one", "o1e");
-    content = content.replace("two", "t2o");
-    content = content.replace("three", "t3e");
-    content = content.replace("four", "f4r");
-    content = content.replace("five", "f5e");
-    content = content.replace("six", "s6x");
-    content = content.replace("seven", "s7n");
-    content = content.replace("eight", "e8t");
-    content = content.replace("nine", "n9e");
-    content = content.replace("zero", "z0o");
+    // Create a map of translation from words to words with a digit inside
+    let mut translation_map = std::collections::HashMap::new();
+    translation_map.insert("zero", "z0o");
+    translation_map.insert("one", "o1e");
+    translation_map.insert("two", "t2o");
+    translation_map.insert("three", "t3e");
+    translation_map.insert("four", "f4r");
+    translation_map.insert("five", "f5e");
+    translation_map.insert("six", "s6x");
+    translation_map.insert("seven", "s7n");
+    translation_map.insert("eight", "e8t");
+    translation_map.insert("nine", "n9e");
+
+    // Replace all words by their value
+    let mut content = content;
+    for (word, translation) in translation_map {
+        content = content.replace(word, translation);
+    }
     return content;
 }
 
