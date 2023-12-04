@@ -13,8 +13,17 @@ pub fn exercice1(content: String) -> u32 {
     return result;
 }
 
-pub fn exercice2(_content: String) -> u32 {
-    let result = 0;
+pub fn exercice2(content: String) -> u32 {
+    let mut result = 0;
+
+    let lines = content.split("\n");
+    for line in lines {
+        if line.is_empty() {
+            continue;
+        }
+        let calibrated_value = find_calibrated_value(replace_digit_words_by_their_value(line.to_string()));
+        result += calibrated_value;
+    }
     return result;
 }
 
@@ -36,6 +45,22 @@ fn find_calibrated_value(content: String) -> u32 {
     let last_digit_value = last_digit.to_digit(10).unwrap();
 
     return (first_digit_value * 10) + last_digit_value;
+}
+
+fn replace_digit_words_by_their_value(content: String) -> String {
+    // replace digit words by their value for mixed words
+    // e.g. eightwothree to e8t2ot3e
+    let mut content = content.replace("one", "o1e");
+    content = content.replace("two", "t2o");
+    content = content.replace("three", "t3e");
+    content = content.replace("four", "f4r");
+    content = content.replace("five", "f5e");
+    content = content.replace("six", "s6x");
+    content = content.replace("seven", "s7n");
+    content = content.replace("eight", "e8t");
+    content = content.replace("nine", "n9e");
+    content = content.replace("zero", "z0o");
+    return content;
 }
 
 
@@ -95,4 +120,20 @@ treb7uchet");
         // Then
         assert_eq!(result, 92);
     }
+
+    #[test]
+    // Test to check if the function replace digit words by their value
+    // is able to replace the digit words by their value for mixed words
+    // like eightwothree to 823
+    fn should_replace_digit_words_by_their_value_for_mixed_words() {
+        // Given
+        let test_content = String::from("eightwothree");
+
+        // When
+        let result = replace_digit_words_by_their_value(test_content);
+
+        // Then
+        assert_eq!(result, String::from("e8t2ot3e"));
+    }
+
 }
