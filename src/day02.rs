@@ -13,7 +13,11 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
+    fn test_inputs_are_integers() {
+        let input1 = "123";
+        let input2 = "456";
+
+        assert!(input1.parse::<i32>().is_ok());
+        assert!(input2.parse::<i32>().is_ok());
     }
 }
