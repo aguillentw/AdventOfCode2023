@@ -21,7 +21,7 @@ pub fn exercice2(content: String) -> u32 {
         if line.is_empty() {
             continue;
         }
-        let calibrated_value = find_calibrated_value(replace_digit_words_by_their_value(line.to_string()));
+        let calibrated_value = find_calibrated_value(replace_first_and_last_digit_words(line.to_string()));
         result += calibrated_value;
     }
     return result;
@@ -47,28 +47,26 @@ fn find_calibrated_value(content: String) -> u32 {
     return (first_digit_value * 10) + last_digit_value;
 }
 
-fn replace_digit_words_by_their_value(content: String) -> String {
-    // Create a map of translation from words to words with a digit inside
-    let mut translation_map = std::collections::HashMap::new();
-    translation_map.insert("zero", "z0o");
-    translation_map.insert("one", "o1e");
-    translation_map.insert("two", "t2o");
-    translation_map.insert("three", "t3e");
-    translation_map.insert("four", "f4r");
-    translation_map.insert("five", "f5e");
-    translation_map.insert("six", "s6x");
-    translation_map.insert("seven", "s7n");
-    translation_map.insert("eight", "e8t");
-    translation_map.insert("nine", "n9e");
+fn replace_first_and_last_digit_words(content: String) -> String {
+    let number_words = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"];
+    let mut new_content = content.clone();
 
-    // Replace all words by their value
-    let mut content = content;
-    for (word, translation) in translation_map {
-        content = content.replace(word, translation);
+    for (i, word) in number_words.iter().enumerate() {
+        if new_content.contains(word) {
+            new_content = new_content.replacen(word, &i.to_string(), 1);
+            break;
+        }
     }
-    return content;
-}
 
+    for (i, word) in number_words.iter().enumerate().rev() {
+        if new_content.contains(word) {
+            new_content = new_content.replacen(word, &i.to_string(), 1);
+            break;
+        }
+    }
+
+    new_content
+}
 
 #[cfg(test)]
 mod tests {
@@ -128,18 +126,16 @@ treb7uchet");
     }
 
     #[test]
-    // Test to check if the function replace digit words by their value
-    // is able to replace the digit words by their value for mixed words
-    // like eightwothree to 823
-    fn should_replace_digit_words_by_their_value_for_mixed_words() {
+
+    fn should_replace_the_first_and_last_digit_words_by_their_value() {
         // Given
-        let test_content = String::from("eightwothree");
+        let test_content = String::from("asdfaeightwoeighthreeasf");
 
         // When
-        let result = replace_digit_words_by_their_value(test_content);
+        let result = replace_first_and_last_digit_words(test_content);
 
         // Then
-        assert_eq!(result, String::from("e8t2ot3e"));
+        assert_eq!(result, String::from("asdfa8woeigh3asf"));
     }
 
 }
